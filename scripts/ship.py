@@ -11,15 +11,14 @@ class Ship():
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom
         self.center = float(self.rect.centerx)
-        
 
         self.moving_right = False
         self.moving_left = False
 
     def update(self):
-        if self.moving_right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.center += self.ai_settings.speed_ship_factor
-        if self.moving_left:
+        if self.moving_left and self.rect.left > 0:
             self.center -= self.ai_settings.speed_ship_factor
         self.rect.centerx = self.center
 
