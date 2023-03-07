@@ -1,5 +1,6 @@
 import pygame
 
+from pygame.sprite import Group
 from settings import Settings
 from ship import Ship
 import game_functions as gf
@@ -12,6 +13,8 @@ def run_game():
         (ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption("Alien Invasion")
     ship = Ship(ai_settings, screen)
+    # Создание группы для хранения пуль.
+    bullets = Group()
 
     while True:
         gf.check_events(ship)
