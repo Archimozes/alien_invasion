@@ -4,6 +4,7 @@ from bullet import Bullet
 
 
 def check_events(ai_settings, screen, ship, bullets):
+    """Считывание действий игрока"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -32,8 +33,17 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
+def update_bullets(bullets):
+    """Обновляет позиции пуль и уничтожение старых пуль."""
+    # Обновление позиций пуль.
+    bullets.update()
+    # Удаление пуль, вышедших за край экрана.
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
 
 def update_screen(ai_settings, screen, ship, bullets):
+    """Отрисовка и обновление экрана"""
     screen.fill(ai_settings.bg_color)
     # Все пули выводятся позади изображений корабля и пришельцев.
     for bullet in bullets.sprites():
