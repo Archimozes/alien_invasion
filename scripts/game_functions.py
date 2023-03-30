@@ -36,10 +36,15 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 
-def update_bullets(bullets):
+def update_bullets(aliens, bullets):
     """Обновляет позиции пуль и уничтожение старых пуль."""
     # Обновление позиций пуль.
     bullets.update()
+
+    # Проверка попаданий в пришельцев.
+    # При обнаружении попадания удалить пулю и пришельца.
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
     # Удаление пуль, вышедших за край экрана.
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
@@ -92,9 +97,9 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
 
 def get_number_rows(ai_settings, ship_height, alien_height):
     """Определяет количество рядов, помещающихся на экране."""
-   # available_space_y = (ai_settings.screen_height -
-   #                      (3 * alien_height) - ship_height)
-   # number_rows = int(available_space_y / (2 * alien_height))
+    # available_space_y = (ai_settings.screen_height -
+    #                      (3 * alien_height) - ship_height)
+    # number_rows = int(available_space_y / (2 * alien_height))
 
     number_rows = 1
     return number_rows
