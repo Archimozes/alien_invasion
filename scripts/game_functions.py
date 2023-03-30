@@ -92,11 +92,30 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
 
 def get_number_rows(ai_settings, ship_height, alien_height):
     """Определяет количество рядов, помещающихся на экране."""
-    available_space_y = (ai_settings.screen_height -
-                         (3 * alien_height) - ship_height)
-    number_rows = int(available_space_y / (2 * alien_height))
+   # available_space_y = (ai_settings.screen_height -
+   #                      (3 * alien_height) - ship_height)
+   # number_rows = int(available_space_y / (2 * alien_height))
+
+    number_rows = 1
     return number_rows
 
-def update_aliens(aliens):
-    """Обновляет позиции всех пришельцев во флоте."""
+
+def change_fleet_direction(ai_settings, aliens):
+    """Опускает весь флот и меняет направление флота."""
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= -1
+
+
+def check_fleet_edges(ai_settings, aliens):
+    """Реагирует на достижение пришельцем края экрана."""
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            break
+
+
+def update_aliens(ai_settings, aliens):
+    """Проверяет, достиг ли флот края экрана, после чего обновляет позиции всех пришельцев во флоте."""
+    check_fleet_edges(ai_settings, aliens)
     aliens.update()
